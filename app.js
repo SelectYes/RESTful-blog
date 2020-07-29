@@ -5,19 +5,21 @@
 const express = require('express');
 const app = express();
 const port = 3000;
-
 const mongoose = require('mongoose');
+const methodOverride = require('method-override');
 
 mongoose.connect('mongodb://localhost:27017/restful_blog', {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false
 })
 .then(() => console.log("Connected to DB!"))
-.catch(error => console.log(error.message));
+.catch(error => console.log(error.message))
 
-app.use(express.static('public'))
+app.use(express.static('public'));
 app.set('view engine', 'ejs');
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({extended: true}));
+app.use(methodOverride('_method'));
 
 ////////////////////////////////////////////////////////////////////////////
 //                               MODEL CONFIG
@@ -48,7 +50,7 @@ app.get('/blogs', (req, res) => {
         } else {
             res.render('index', {blogs: blogs});
         }
-    })
+    });
 });
 
 
@@ -66,8 +68,8 @@ app.post('/blogs', (req, res) => {
         } else {
             res.redirect('/blogs');
         }
-    })   
-})
+    });   
+});
 
 
 // SHOW ROUTE
@@ -83,8 +85,26 @@ app.get('/blogs/:id', (req, res) => {
 
 
 // EDIT ROUTE
+app.get('/blogs/:id/edit', (req, res) => {
+    Blog.findById(req.params.id, (err, retrievedData) => {
+        if (err) {
+            console.log('ERROR!');
+        } else {
+            res.render('edit', {blog: retrievedData});
+        }
+    });
+});
 
-
+// UPDATE ROUTE
+app.put('/blogs/:id', (req, res) => {
+    Blog.findByIdAndUpdate(req.params.id, req.body.blog, (err, updatedBlog) => {
+        if (err) {
+            console.log("ERROR!");
+        } else {
+            res.redirect(`/blogs/${req.params.id}`);
+        }
+    });
+});
 
 
 app.listen(port, () => console.log('Serving RESTful Blog on localhost:' + port));

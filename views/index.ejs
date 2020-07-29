@@ -5,6 +5,7 @@
     <div class="ui huge header">Welcome To My Blog!</div>
 
     <% blogs.forEach(element => { %>
+        
         <h3><%= element.title %></h3>
         <p><%= element.created.toDateString() %></p>
         <img class="ui centered rounded image" src="<%= element.image %>" alt="">
