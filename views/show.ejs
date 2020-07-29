@@ -10,8 +10,13 @@
         <div class="content">
             <p><%= blog.body %></p>
         </div>
-        <a href="/blogs"><button class="ui button">Back</button></a>
-        <a href="/blogs/<%= blog._id %>/edit"><button class="ui button">Edit</button></a>
+        <!-- <div class="ui basic buttons"> -->
+            <a href="/blogs"><button class="ui basic blue button">Back</button></a>
+            <a href="/blogs/<%= blog._id %>/edit"><button class="ui black basic button">Edit</button></a>
+            <form id="inline-form" action="/blogs/<%= blog._id %>?_method=DELETE" method="POST">
+                <button type="submit" class="ui red basic button">Delete</button>
+            </form>
+        <!-- </div> -->
     </div>
 </div>
 

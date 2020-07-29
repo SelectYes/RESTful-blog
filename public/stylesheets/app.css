@@ -7,3 +7,7 @@ i.icon {
 .container.main {
     margin: 7em;
 }
+
+#inline-form {
+    display: inline;
+}

@@ -107,4 +107,16 @@ app.put('/blogs/:id', (req, res) => {
 });
 
 
+// DELETE ROUTE
+app.delete('/blogs/:id', (req, res) => {
+    Blog.findOneAndDelete(req.params.id, (err, retrievedData) => {
+        if (err) {
+            console.log("ERROR!");
+        } else {
+            res.redirect('/blogs');
+        }
+    })
+})
+
+
 app.listen(port, () => console.log('Serving RESTful Blog on localhost:' + port));
