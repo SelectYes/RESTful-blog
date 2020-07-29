@@ -36,6 +36,7 @@ const Blog = mongoose.model('Blog', blogSchema);
 //                                 ROUTES
 ////////////////////////////////////////////////////////////////////////////
 
+// INDEX ROUTE
 app.get('/', (req, res) => {
     res.redirect('/blogs');
 });
@@ -50,18 +51,40 @@ app.get('/blogs', (req, res) => {
     })
 });
 
+
+// NEW ROUTE
+app.get('/blogs/new', (req, res) => {
+    res.render('new');
+});
+
+
+// CREATE ROUTE
 app.post('/blogs', (req, res) => {
     Blog.create(req.body.blog, (err, newBlog) => {
         if (err) {
-            console.log(err)
+            console.log(err);
         } else {
-            res.redirect('/blogs')
+            res.redirect('/blogs');
         }
     })   
 })
 
-app.get('/blogs/new', (req, res) => {
-    res.render('new')
+
+// SHOW ROUTE
+app.get('/blogs/:id', (req, res) => {
+    Blog.findById(req.params.id, (err, retrievedData) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.render('show', {blog: retrievedData});
+        }
+    });
 });
+
+
+// EDIT ROUTE
+
+
+
 
 app.listen(port, () => console.log('Serving RESTful Blog on localhost:' + port));
