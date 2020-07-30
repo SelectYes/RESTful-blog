@@ -11,3 +11,11 @@ i.icon {
 #inline-form {
     display: inline;
 }
+
+p {
+    font-size: 1.3rem;
+}
+
+.date-text {
+    font size: 1rem;
+}
